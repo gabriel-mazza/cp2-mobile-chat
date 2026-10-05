@@ -46,7 +46,7 @@ export function GroupFormScreen({ navigation, route }: ScreenProps<'GroupForm'>)
 
   const { users, loading: usersLoading, error: usersError } = useUsers(user?.uid ?? null, search);
 
-  // Preenche o formulário uma única vez no modo edição.
+ 
   useEffect(() => {
     if (group && !initialized.current) {
       initialized.current = true;

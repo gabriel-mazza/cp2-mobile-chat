@@ -9,10 +9,10 @@ const app: FirebaseApp = getApps().length > 0 ? getApp() : initializeApp(firebas
 
 function createAuth(): Auth {
   try {
-    // Persiste a sessão com AsyncStorage (recuperação da sessão ao reabrir o app).
+   
     return initializeAuth(app, { persistence: getReactNativePersistence(AsyncStorage) });
   } catch {
-    // Fast refresh: o Auth já foi inicializado.
+    
     return getAuth(app);
   }
 }

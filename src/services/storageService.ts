@@ -6,10 +6,7 @@ const UPLOAD_PRESET = process.env.EXPO_PUBLIC_CLOUDINARY_UPLOAD_PRESET ?? '';
 
 type FilePart = { uri: string; name: string; type: string };
 
-/**
- * Envia a imagem ao Cloudinary (upload preset "unsigned": nenhum segredo no app)
- * e devolve SOMENTE a URL final HTTPS. No Firestore/RTDB nunca é gravado Base64.
- */
+
 export async function uploadImage(localUri: string, folder: string): Promise<string> {
   if (!CLOUD_NAME || !UPLOAD_PRESET) {
     throw new AppError(
@@ -20,8 +17,7 @@ export async function uploadImage(localUri: string, folder: string): Promise<str
 
   const filePart: FilePart = { uri: localUri, name: 'photo.jpg', type: 'image/jpeg' };
   const form = new FormData();
-  // React Native aceita { uri, name, type } como arquivo no FormData.
-  form.append('file', filePart as unknown as Blob);
+  // React Native aceita { uri, name, type } como arquivo no FormData.  form.append('file', filePart as unknown as Blob);
   form.append('upload_preset', UPLOAD_PRESET);
   form.append('folder', folder);
 

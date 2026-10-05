@@ -35,10 +35,7 @@ async function uploadGroupPhoto(photoUri: string): Promise<string> {
   return uploadImage(photoUri, 'chat/groupPhotos');
 }
 
-/**
- * A criação passa pela API: ela valida o limite e sincroniza o espelho de integrantes
- * no Realtime Database, de onde as regras de segurança das mensagens leem.
- */
+
 export async function createGroup(ownerId: string, input: CreateGroupInput): Promise<string> {
   const photoUrl = input.photoUri ? await uploadGroupPhoto(input.photoUri) : '';
   const response = await apiRequest<CreateGroupResponse>('/groups', {
@@ -54,7 +51,7 @@ export async function createGroup(ownerId: string, input: CreateGroupInput): Pro
   return response.groupId;
 }
 
-/** Alterações (limite, política, integrantes...) aplicadas numa transação única no servidor. */
+
 export async function updateGroup(groupId: string, ownerId: string, input: UpdateGroupInput): Promise<void> {
   const body: Record<string, unknown> = {};
   if (input.name !== undefined) body.name = input.name.trim();

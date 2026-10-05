@@ -7,7 +7,7 @@ import { PublicUser } from '../types/user';
 type Props = {
   user: PublicUser;
   onPress: (user: PublicUser) => void;
-  /** Quando definido, exibe um indicador de seleção (modo seleção de integrantes). */
+  
   selected?: boolean;
   disabled?: boolean;
 };

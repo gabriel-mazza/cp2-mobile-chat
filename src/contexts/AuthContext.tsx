@@ -6,7 +6,7 @@ import { ChatUser, RegisterInput } from '../types/user';
 
 export type AuthContextValue = {
   user: ChatUser | null;
-  /** true enquanto a sessão está sendo recuperada. */
+ 
   loading: boolean;
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (input: RegisterInput) => Promise<void>;
@@ -45,7 +45,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             setUser(profile);
             setLoading(false);
           } else if (!registering.current) {
-            // Conta sem perfil (cadastro interrompido): encerra a sessão.
+            
             setUser(null);
             setLoading(false);
             void logout();

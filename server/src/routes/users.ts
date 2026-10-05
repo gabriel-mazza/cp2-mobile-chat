@@ -8,7 +8,7 @@ const ID_PATTERN = /^[A-Za-z0-9_-]{1,128}$/;
 
 export const usersRouter = Router();
 
-// Perfil só é entregue se os dois usuários compartilham uma conversa individual ou um grupo.
+
 usersRouter.get(
   '/:uid/profile',
   authenticate,

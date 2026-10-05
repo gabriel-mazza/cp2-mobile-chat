@@ -19,7 +19,7 @@ function extractMessage(payload: unknown, status: number): { code: string; messa
   return { code: 'HTTP_ERROR', message: 'O servidor não conseguiu concluir a operação.' };
 }
 
-/** Chamada autenticada à API própria: envia o ID token do Firebase Auth. */
+
 export async function apiRequest<T>(path: string, options: RequestOptions = {}): Promise<T> {
   if (!API_URL) {
     throw new ApiError('API_NOT_CONFIGURED', 'A URL da API não foi configurada (EXPO_PUBLIC_API_URL).', 0);

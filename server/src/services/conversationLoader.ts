@@ -64,11 +64,7 @@ export async function loadMessage(
   return parseStoredMessage(raw);
 }
 
-/**
- * Espelha os integrantes de uma conversa no Realtime Database
- * (conversationMembers/{conversationId}/{uid} = true), que é o que as regras do RTDB
- * consultam para liberar leitura/escrita de mensagens. Somente a API escreve aqui.
- */
+
 export async function syncConversationMembers(
   conversationId: string,
   memberIds: readonly string[],

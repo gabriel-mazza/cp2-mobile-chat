@@ -24,7 +24,7 @@ export async function logout(): Promise<void> {
   await signOut(auth);
 }
 
-/** Observa o perfil em tempo real (users/{uid}). */
+
 export function observeProfile(
   uid: string,
   onProfile: (profile: ChatUser | null) => void,
@@ -48,7 +48,7 @@ export async function registerWithEmail(input: RegisterInput): Promise<void> {
     const createdAt = Date.now();
     const name = input.name.trim();
 
-    // Dados completos (privados) + diretório público mínimo, gravados juntos.
+    
     const batch = writeBatch(db);
     batch.set(doc(db, 'users', uid), {
       uid,
@@ -62,7 +62,7 @@ export async function registerWithEmail(input: RegisterInput): Promise<void> {
     batch.set(doc(db, 'userDirectory', uid), { uid, name, nameLower: name.toLowerCase(), photoUrl, createdAt });
     await batch.commit();
   } catch (error) {
-    // Evita conta "órfã" sem perfil.
+    
     await deleteUser(credential.user).catch(() => undefined);
     throw error;
   }

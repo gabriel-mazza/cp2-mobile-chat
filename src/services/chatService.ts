@@ -20,7 +20,7 @@ const MESSAGES_LIMIT = 200;
 
 type DirectConversationResponse = { conversationId: string };
 
-/** Cria (ou localiza) a conversa individual. O id é determinístico: uidA_uidB ordenados. */
+
 export async function getOrCreateDirectConversation(myUid: string, otherUid: string): Promise<string> {
   if (myUid === otherUid) {
     throw new AppError('SELF_CONVERSATION', 'Você não pode conversar consigo mesmo.');
@@ -67,7 +67,7 @@ export function observeDirectConversation(
   );
 }
 
-/** Persiste a mensagem no Realtime Database e devolve o id gerado. */
+
 export async function sendChatMessage(input: SendMessageInput): Promise<string> {
   const messageRef = push(ref(realtimeDb, `messages/${input.conversationId}`));
   const messageId = messageRef.key;
@@ -85,7 +85,7 @@ export async function sendChatMessage(input: SendMessageInput): Promise<string> 
   return messageId;
 }
 
-/** Listener em tempo real das mensagens; retorna a função que remove o listener. */
+
 export function observeMessages(
   conversationId: string,
   onData: (messages: ChatMessage[]) => void,
@@ -111,7 +111,7 @@ export function observeMessages(
   );
 }
 
-/** Estado de conectividade com o Realtime Database. */
+
 export function observeConnection(onChange: (connected: boolean) => void): Unsubscribe {
   return onValue(ref(realtimeDb, '.info/connected'), (snapshot) => {
     onChange(snapshot.val() === true);

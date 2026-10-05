@@ -33,7 +33,7 @@ export function maskDate(value: string): string {
   return `${d.slice(0, 2)}/${d.slice(2, 4)}/${d.slice(4)}`;
 }
 
-/** Converte dd/mm/aaaa em ISO (aaaa-mm-dd); retorna null se inválida. */
+
 export function parseBirthDate(input: string): string | null {
   const match = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(input);
   if (!match) return null;

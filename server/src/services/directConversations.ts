@@ -17,7 +17,7 @@ export async function getOrCreateDirectConversation(uid: string, otherUid: strin
   const ref = firestore.collection('directConversations').doc(id);
   const participantIds = [uid, otherUid].sort();
 
-  // Transação: nunca existem duas conversas para o mesmo par (id determinístico).
+  
   await firestore.runTransaction(async (tx) => {
     const snap = await tx.get(ref);
     if (!snap.exists) tx.set(ref, { participantIds, createdAt: Date.now() });

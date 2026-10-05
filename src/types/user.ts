@@ -3,12 +3,12 @@ export type ChatUser = {
   name: string;
   email: string;
   phoneNumber: string;
-  birthDate: string; // ISO yyyy-mm-dd
+  birthDate: string;
   photoUrl: string;
   createdAt: number;
 };
 
-/** Dados mínimos visíveis a qualquer usuário autenticado (userDirectory). */
+
 export type PublicUser = {
   uid: string;
   name: string;
@@ -17,7 +17,7 @@ export type PublicUser = {
   createdAt: number;
 };
 
-/** Perfil entregue pela API somente a quem compartilha conversa/grupo. */
+
 export type UserProfile = {
   uid: string;
   name: string;
@@ -32,6 +32,6 @@ export type RegisterInput = {
   email: string;
   password: string;
   phoneNumber: string;
-  birthDate: string; // ISO yyyy-mm-dd
+  birthDate: string;
   photoUri: string | null;
 };

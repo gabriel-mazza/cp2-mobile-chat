@@ -37,7 +37,7 @@ const FIREBASE_MESSAGES: Record<string, string> = {
   unavailable: 'Serviço indisponível. Verifique sua conexão.',
 };
 
-/** Converte qualquer erro em mensagem amigável, sem expor detalhes internos. */
+
 export function getErrorMessage(error: unknown): string {
   if (error instanceof ApiError || error instanceof AppError) return error.message;
   if (isRecord(error) && typeof error.code === 'string') {

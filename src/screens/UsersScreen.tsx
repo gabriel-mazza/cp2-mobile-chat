@@ -17,7 +17,7 @@ export function UsersScreen({ navigation }: ScreenProps<'Users'>) {
   const { user } = useAuth();
   const [search, setSearch] = useState('');
   const [opening, setOpening] = useState(false);
-  // O próprio usuário é excluído da lista: não é possível conversar consigo mesmo.
+  
   const { users, loading, error } = useUsers(user?.uid ?? null, search);
 
   const startConversation = useCallback(

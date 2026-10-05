@@ -3,7 +3,7 @@ import { observeUserDirectory } from '../services/userService';
 import { PublicUser } from '../types/user';
 import { getErrorMessage } from '../utils/errors';
 
-/** Diretório completo de usuários (nome + foto), em tempo real. */
+
 export function useUserDirectory() {
   const [users, setUsers] = useState<PublicUser[]>([]);
   const [loading, setLoading] = useState(true);
@@ -35,7 +35,7 @@ export function useUserDirectory() {
   return { users, byId, loading, error };
 }
 
-/** Lista filtrada por busca, sem o próprio usuário. */
+
 export function useUsers(excludeUid: string | null, search: string) {
   const { users, byId, loading, error } = useUserDirectory();
 

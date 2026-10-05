@@ -16,7 +16,7 @@ export function useChat(conversationId: string, conversationType: ConversationTy
   const [connected, setConnected] = useState(true);
   const connectedRef = useRef(true);
 
-  // Listener em tempo real das mensagens (removido ao desmontar ou trocar de conversa).
+  
   useEffect(() => {
     setLoading(true);
     setMessages([]);
@@ -66,7 +66,7 @@ export function useChat(conversationId: string, conversationType: ConversationTy
           await requestMessagePush(conversationId, messageId);
         } catch {
           try {
-            // A API é idempotente por mensagem: reenviar não duplica notificações.
+            
             await requestMessagePush(conversationId, messageId);
           } catch {
             setPushWarning('Mensagem enviada, mas não foi possível solicitar a notificação push.');

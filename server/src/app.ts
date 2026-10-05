@@ -11,7 +11,7 @@ export const app = express();
 app.use(cors());
 app.use(express.json({ limit: '50kb' }));
 
-// Health check (usado pela hospedagem e para verificar disponibilidade)
+
 app.get('/health', (_req: Request, res: Response) => {
   res.status(200).json({ status: 'ok', service: 'chat-firebase-api', time: new Date().toISOString() });
 });

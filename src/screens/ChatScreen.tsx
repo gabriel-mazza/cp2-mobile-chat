@@ -50,7 +50,7 @@ export function ChatScreen({ navigation, route }: ScreenProps<'Chat'>) {
     });
   }, [info.isGroup, info.photoUrl, info.title, navigation, openHeader]);
 
-  // Integrantes selecionáveis como destinatário/menção (sem o próprio usuário).
+  
   const selectableMembers = useMemo(
     () => (info.isGroup ? info.members.filter((m) => m.uid !== user?.uid) : undefined),
     [info.isGroup, info.members, user?.uid],

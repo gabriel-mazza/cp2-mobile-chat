@@ -10,7 +10,7 @@ type Props = {
   onPress?: () => void;
 };
 
-/** Foto com imagem padrão (iniciais/ícone) quando ausente ou quando falha ao carregar. */
+
 export function Avatar({ uri, name, size = 44, isGroup = false, onPress }: Props) {
   const [failed, setFailed] = useState(false);
 

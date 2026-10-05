@@ -19,7 +19,6 @@ export type ConversationInfo = {
   group: ChatGroup | null;
 };
 
-/** Metadados da conversa aberta (grupo no Firestore ou conversa individual + perfil do outro). */
 export function useConversationInfo(conversationId: string, type: ConversationType, uid: string | null) {
   const [group, setGroup] = useState<ChatGroup | null>(null);
   const [direct, setDirect] = useState<DirectConversation | null>(null);

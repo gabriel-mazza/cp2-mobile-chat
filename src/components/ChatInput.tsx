@@ -7,7 +7,7 @@ import { PublicUser } from '../types/user';
 type Props = {
   onSend: (text: string, target: MessageTarget, mentionedUserIds: string[]) => Promise<boolean>;
   sending: boolean;
-  /** Integrantes selecionáveis (somente em grupos, sem o usuário atual). */
+  
   members?: PublicUser[];
 };
 

@@ -19,10 +19,7 @@ export function observeUserDirectory(
 
 type ProfileResponse = { profile: UserProfile };
 
-/**
- * Perfil próprio: lido direto do Firestore.
- * Perfil de outra pessoa: lido pela API, que só entrega se houver conversa/grupo em comum.
- */
+
 export async function fetchUserProfile(userId: string, myUid: string): Promise<UserProfile> {
   if (userId === myUid) {
     const snap = await getDoc(doc(db, 'users', myUid));

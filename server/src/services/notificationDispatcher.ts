@@ -55,7 +55,7 @@ export async function dispatchMessageNotification(
   conversationId: string,
   messageId: string,
 ): Promise<DispatchResult> {
-  // 1) A conversa existe e o usuário autenticado participa (lido do Firestore).
+  
   const conversation = await loadConversation(conversationId);
   if (!conversation) {
     throw new HttpError(404, 'CONVERSATION_NOT_FOUND', 'Conversa não encontrada.');
@@ -64,7 +64,7 @@ export async function dispatchMessageNotification(
     throw new HttpError(403, 'FORBIDDEN', 'Você não participa desta conversa.');
   }
 
-  // 2) A mensagem existe no Realtime Database e pertence ao usuário autenticado.
+  
   const message = await loadMessage(conversationId, messageId);
   if (!message) {
     throw new HttpError(404, 'MESSAGE_NOT_FOUND', 'Mensagem não encontrada.');
@@ -73,7 +73,7 @@ export async function dispatchMessageNotification(
     throw new HttpError(403, 'FORBIDDEN', 'A mensagem não pertence ao usuário autenticado.');
   }
 
-  // 3) Idempotência: create() falha se o documento já existir, mesmo com requisições concorrentes.
+  
   const logRef = firestore.collection('notificationDeliveries').doc(`${conversationId}__${messageId}`);
   try {
     await logRef.create({ status: 'processing', senderId: authenticatedUid, createdAt: Date.now() });
@@ -85,7 +85,7 @@ export async function dispatchMessageNotification(
   }
 
   try {
-    // 4) Destinatários calculados no servidor (nunca confiamos em lista vinda do app).
+    
     const recipientIds = resolveRecipients({
       conversationType: conversation.type,
       participants: conversation.participants,
@@ -106,7 +106,7 @@ export async function dispatchMessageNotification(
       return { status: 'no_devices', recipients: recipientIds.length, sent: 0, failed: 0 };
     }
 
-    // 5) Texto genérico: o conteúdo da mensagem não vai na notificação.
+    
     const senderName = await displayName(authenticatedUid);
     const title = conversation.type === 'group' ? (conversation.name ?? 'Grupo') : senderName;
     const body = conversation.type === 'group' ? `${senderName} enviou uma mensagem` : 'Nova mensagem';
@@ -121,7 +121,7 @@ export async function dispatchMessageNotification(
       },
     });
 
-    // 6) Tokens inválidos são desativados.
+    
     await Promise.all(
       result.invalid.map((device) =>
         firestore
@@ -144,7 +144,7 @@ export async function dispatchMessageNotification(
 
     return { status: 'sent', recipients: recipientIds.length, sent: result.sent, failed: result.failed };
   } catch (error) {
-    // Libera o registro para que o app possa tentar de novo.
+    
     await logRef.delete().catch(() => undefined);
     throw error;
   }

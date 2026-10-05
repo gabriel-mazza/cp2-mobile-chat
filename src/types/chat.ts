@@ -31,7 +31,7 @@ export type SendMessageInput = {
   mentionedUserIds: string[];
 };
 
-/** Item exibido na lista de conversas. */
+
 export type ConversationSummary = {
   id: string;
   type: ConversationType;

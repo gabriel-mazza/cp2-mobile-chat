@@ -66,7 +66,7 @@ export function RegisterScreen({ navigation }: ScreenProps<'Register'>) {
     setLoading(true);
     try {
       await signUp({ name, email, password, phoneNumber: phone, birthDate, photoUri });
-      // Sucesso: o AuthContext detecta o perfil e a navegação troca sozinha.
+     
     } catch (e) {
       setFormError(getErrorMessage(e));
       setLoading(false);

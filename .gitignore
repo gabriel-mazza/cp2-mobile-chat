@@ -17,3 +17,6 @@ firebaseAdminCredentials.json
 *.key
 *.pem
 chat-firebase.zip
+
+android/
+ios/

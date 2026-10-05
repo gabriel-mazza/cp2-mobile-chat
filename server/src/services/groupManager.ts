@@ -90,11 +90,7 @@ export async function createGroup(ownerId: string, body: unknown): Promise<Group
   return toGroupDoc(ref.id, data);
 }
 
-/**
- * Atualização atômica: nome, foto, limite, política e integrantes numa ÚNICA transação.
- * O Admin SDK usa bloqueio pessimista nas transações, então entradas concorrentes
- * são serializadas e o limite nunca é ultrapassado.
- */
+
 export async function updateGroup(groupId: string, requesterId: string, body: unknown): Promise<GroupDoc> {
   if (!isRecord(body)) throw new HttpError(400, 'INVALID_BODY', 'Corpo da requisição inválido.');
 

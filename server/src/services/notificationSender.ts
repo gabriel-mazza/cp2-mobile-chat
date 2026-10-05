@@ -30,7 +30,7 @@ function chunk<T>(items: readonly T[], size: number): T[][] {
   return chunks;
 }
 
-/** Android (token FCM nativo): envio direto via Firebase Cloud Messaging. */
+
 async function sendViaFcm(devices: DeviceTarget[], payload: PushPayload): Promise<SendResult> {
   const result: SendResult = { sent: 0, failed: 0, invalid: [] };
   for (const group of chunk(devices, 500)) {
@@ -60,7 +60,7 @@ async function sendViaFcm(devices: DeviceTarget[], payload: PushPayload): Promis
   return result;
 }
 
-/** iOS (token Expo): Expo Push Service, que entrega via APNs. */
+
 async function sendViaExpo(devices: DeviceTarget[], payload: PushPayload): Promise<SendResult> {
   const result: SendResult = { sent: 0, failed: 0, invalid: [] };
   for (const group of chunk(devices, 100)) {

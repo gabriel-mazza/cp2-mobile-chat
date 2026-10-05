@@ -21,7 +21,7 @@ export type CreateGroupInput = {
   photoUri: string | null;
   memberLimit: number;
   notificationPolicy: NotificationPolicy;
-  /** Integrantes escolhidos, sem o proprietário. */
+ 
   memberIds: string[];
 };
 

@@ -12,7 +12,6 @@ import { isConversationType, isRecord } from '../utils/parsers';
 
 const DEVICE_ID_KEY = 'chat.deviceId';
 
-// Foreground: mostra o banner da notificação.
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowBanner: true,
@@ -32,10 +31,6 @@ async function getDeviceId(): Promise<string> {
 
 type PushToken = { token: string; provider: PushProvider };
 
-/**
- * Android: token FCM nativo (a API envia direto pelo Firebase Cloud Messaging).
- * iOS: token do Expo Push Service (entrega via APNs).
- */
 async function getPushToken(): Promise<PushToken> {
   if (Platform.OS === 'android') {
     const native = await Notifications.getDevicePushTokenAsync();
@@ -63,9 +58,11 @@ async function saveDevice(uid: string, push: PushToken): Promise<void> {
   });
 }
 
-/** Pede permissão, obtém o token e registra o dispositivo no Firestore. */
+
 export async function registerDevice(uid: string): Promise<PushRegistrationStatus> {
-  if (!Device.isDevice || (Platform.OS !== 'android' && Platform.OS !== 'ios')) return 'unavailable';
+  if (Platform.OS !== 'android' && Platform.OS !== 'ios') return 'unavailable';
+ 
+  if (!Device.isDevice && Platform.OS === 'ios') return 'unavailable';
 
   if (Platform.OS === 'android') {
     await Notifications.setNotificationChannelAsync('default', {
@@ -88,17 +85,17 @@ export async function registerDevice(uid: string): Promise<PushRegistrationStatu
   return 'registered';
 }
 
-/** Remove o token deste aparelho (usado no logout e quando a permissão é negada). */
+
 export async function unregisterDevice(uid: string): Promise<void> {
   try {
     const deviceId = await getDeviceId();
     await deleteDoc(doc(db, 'users', uid, 'devices', deviceId));
   } catch {
-    // Melhor esforço: não bloqueia o logout.
+    
   }
 }
 
-/** Mantém o token atualizado quando o FCM o renova (Android). */
+
 export function observeTokenRefresh(uid: string): () => void {
   const subscription = Notifications.addPushTokenListener((token) => {
     if (Platform.OS === 'android' && typeof token.data === 'string') {
@@ -108,7 +105,7 @@ export function observeTokenRefresh(uid: string): () => void {
   return () => subscription.remove();
 }
 
-/** Pede à API o envio do push. Os destinatários são calculados no servidor. */
+
 export async function requestMessagePush(conversationId: string, messageId: string): Promise<void> {
   await apiRequest<unknown>('/notifications/messages', {
     method: 'POST',
@@ -125,7 +122,6 @@ function parseTarget(data: unknown): NotificationTarget | null {
   return null;
 }
 
-/** Lê o payload do toque na notificação (FCM direto ou via Expo). */
 export function extractNotificationTarget(response: Notifications.NotificationResponse): NotificationTarget | null {
   const request = response.notification.request;
   const fromContent = parseTarget(request.content.data);

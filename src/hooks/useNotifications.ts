@@ -12,10 +12,7 @@ import { RootStackParamList } from '../types/navigation';
 import { ChatUser } from '../types/user';
 import { getErrorMessage } from '../utils/errors';
 
-/**
- * Registra o dispositivo para push e abre a conversa certa quando o usuário
- * toca na notificação (app em segundo plano ou fechado).
- */
+
 export function useNotifications(user: ChatUser | null) {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [status, setStatus] = useState<PushRegistrationStatus>('idle');

@@ -2,19 +2,16 @@ import { ConversationType, MessageTarget, NotificationPolicy } from '../types';
 
 export type ResolveInput = {
   conversationType: ConversationType;
-  /** Participantes ATUAIS da conversa, lidos do Firestore (nunca enviados pelo app). */
+ 
   participants: readonly string[];
-  /** Política do grupo (ignorada em conversas diretas). */
+
   policy: NotificationPolicy | null;
   senderId: string;
   target: MessageTarget;
   mentionedUserIds: readonly string[];
 };
 
-/**
- * Calcula, no servidor, quem deve receber o push.
- * Regras gerais: o remetente nunca recebe; só participantes atuais recebem.
- */
+
 export function resolveRecipients(input: ResolveInput): string[] {
   const { conversationType, participants, policy, senderId, target, mentionedUserIds } = input;
   const members = new Set(participants);
@@ -26,7 +23,7 @@ export function resolveRecipients(input: ResolveInput): string[] {
 
   switch (policy) {
     case 'all_group_messages':
-      // Todos os integrantes, exceto o remetente (mensagem geral ou direcionada).
+      
       return Array.from(members);
 
     case 'mentioned_members': {

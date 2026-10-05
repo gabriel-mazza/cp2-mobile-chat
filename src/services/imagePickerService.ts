@@ -1,7 +1,7 @@
 import * as ImagePicker from 'expo-image-picker';
 import { AppError } from '../utils/errors';
 
-/** Solicita permissão da galeria e devolve a URI da imagem escolhida (ou null se cancelou). */
+
 export async function pickImage(): Promise<string | null> {
   const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
   if (!permission.granted) {
