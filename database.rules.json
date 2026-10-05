@@ -1,0 +1,40 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "conversationMembers": {
+      "$conversationId": {
+        "$uid": {
+          ".read": "auth != null && auth.uid === $uid"
+        }
+      }
+    },
+
+    "messages": {
+      "$conversationId": {
+        ".read": "auth != null && root.child('conversationMembers').child($conversationId).child(auth.uid).val() === true",
+        ".indexOn": ["createdAt"],
+        "$messageId": {
+          ".write": "auth != null && !data.exists() && newData.exists() && root.child('conversationMembers').child($conversationId).child(auth.uid).val() === true",
+          ".validate": "newData.hasChildren(['conversationId', 'conversationType', 'senderId', 'text', 'target', 'createdAt'])",
+          "conversationId": { ".validate": "newData.val() === $conversationId" },
+          "conversationType": { ".validate": "newData.val() === 'direct' || newData.val() === 'group'" },
+          "senderId": { ".validate": "newData.val() === auth.uid" },
+          "text": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 2000" },
+          "target": {
+            ".validate": "newData.hasChild('type') && (newData.child('type').val() === 'conversation' || (newData.child('type').val() === 'member' && newData.hasChild('memberId') && root.child('conversationMembers').child($conversationId).child(newData.child('memberId').val()).val() === true))",
+            "type": { ".validate": "newData.isString()" },
+            "memberId": { ".validate": "newData.isString()" },
+            "$other": { ".validate": false }
+          },
+          "mentionedUserIds": {
+            "$index": { ".validate": "newData.isString() && root.child('conversationMembers').child($conversationId).child(newData.val()).val() === true" }
+          },
+          "createdAt": { ".validate": "newData.val() === now" },
+          "$other": { ".validate": false }
+        }
+      }
+    }
+  }
+}

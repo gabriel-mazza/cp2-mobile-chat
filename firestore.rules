@@ -1,0 +1,67 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    // Dados cadastrais completos: somente o próprio usuário lê/escreve.
+    // Outros usuários acessam o perfil pela API (que valida conversa/grupo em comum).
+    match /users/{uid} {
+      allow read: if isOwner(uid);
+      allow create: if isOwner(uid)
+        && request.resource.data.keys().hasOnly(['uid', 'name', 'email', 'phoneNumber', 'birthDate', 'photoUrl', 'createdAt'])
+        && request.resource.data.uid == uid
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.name is string
+        && request.resource.data.name.size() >= 2
+        && request.resource.data.name.size() <= 60;
+      allow update: if isOwner(uid)
+        && request.resource.data.uid == resource.data.uid
+        && request.resource.data.email == resource.data.email
+        && request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if false;
+
+      // Tokens de dispositivo: somente o dono grava; a API lê via Admin SDK.
+      match /devices/{deviceId} {
+        allow read, delete: if isOwner(uid);
+        allow create, update: if isOwner(uid)
+          && request.resource.data.keys().hasOnly(['token', 'provider', 'platform', 'enabled', 'updatedAt'])
+          && request.resource.data.provider in ['fcm', 'expo']
+          && request.resource.data.platform in ['ios', 'android'];
+      }
+    }
+
+    // Diretório público mínimo (nome + foto) para buscar usuários e iniciar conversas.
+    match /userDirectory/{uid} {
+      allow read: if signedIn();
+      allow create, update: if isOwner(uid)
+        && request.resource.data.keys().hasOnly(['uid', 'name', 'nameLower', 'photoUrl', 'createdAt'])
+        && request.resource.data.uid == uid;
+      allow delete: if false;
+    }
+
+    // Grupos: somente integrantes leem. Escrita APENAS pela API (transação que
+    // garante memberLimit sob concorrência e sincroniza o espelho no Realtime Database).
+    match /groups/{groupId} {
+      allow read: if signedIn() && request.auth.uid in resource.data.memberIds;
+      allow write: if false;
+    }
+
+    match /directConversations/{conversationId} {
+      allow read: if signedIn() && request.auth.uid in resource.data.participantIds;
+      allow write: if false;
+    }
+
+    // Log de deduplicação de notificações: somente a API (Admin SDK).
+    match /notificationDeliveries/{id} {
+      allow read, write: if false;
+    }
+  }
+}

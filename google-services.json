@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "918949445173",
+    "firebase_url": "https://cp2-mobile-d517b-default-rtdb.firebaseio.com",
+    "project_id": "cp2-mobile-d517b",
+    "storage_bucket": "cp2-mobile-d517b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:918949445173:android:829e140a89e85c57f4fb7c",
+        "android_client_info": {
+          "package_name": "br.com.cp2mobile.chat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfgkqJEIyKqNTZeVGZ_fraiUbJQ0XpMjY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

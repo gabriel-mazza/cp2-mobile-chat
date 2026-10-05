@@ -1,0 +1,28 @@
+{
+  "expo": {
+    "name": "Chat Firebase",
+    "slug": "chat-firebase",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "chatfirebase",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "bundleIdentifier": "br.com.cp2mobile.chat",
+      "supportsTablet": false
+    },
+    "android": {
+      "package": "br.com.cp2mobile.chat",
+      "googleServicesFile": "./google-services.json"
+    },
+    "plugins": [
+      "expo-notifications",
+      [
+        "expo-image-picker",
+        { "photosPermission": "O app precisa acessar suas fotos para definir a foto de perfil e do grupo." }
+      ]
+    ],
+    "extra": {
+      "eas": { "projectId": "COLOQUE_O_PROJECT_ID_DO_EAS" }
+    }
+  }
+}

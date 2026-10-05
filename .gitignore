@@ -1,0 +1,19 @@
+node_modules/
+.expo/
+dist/
+web-build/
+*.log
+.env
+.env.local
+server/.env
+server/dist/
+server/node_modules/
+# Segredos: NUNCA versionar
+serviceAccountKey.json
+firebaseAdminCredentials.json
+*-firebase-adminsdk-*.json
+*.p8
+*.p12
+*.key
+*.pem
+chat-firebase.zip
