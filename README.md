@@ -139,7 +139,7 @@ Conversas individuais sempre notificam o outro participante. O remetente nunca �
 
 **Tecnologia:** Node.js 20 + Express + TypeScript + Firebase Admin SDK (`server/`).
 
-**URL pública (HTTPS):** `https://SUA-API.onrender.com` &nbsp;← _PREENCHER_
+**URL pública (HTTPS):** `https://cp2-mobile-chat.onrender.com` &nbsp;← _PREENCHER_
 
 | Método | Rota | Descrição |
 |---|---|---|
